@@ -83,5 +83,5 @@ if __name__ == '__main__':
     #with open('blocks.json', 'w') as out:
         #json.dump(blocks, out)
 
-    writedb(blocks, sys.argv[2], 16384, False)
+    writedb(blocks, sys.argv[2], 24576, False)
     sys.exit(0)
