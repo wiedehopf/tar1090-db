@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 import sqlite3, json, sys, csv
 from contextlib import closing
@@ -6,7 +6,7 @@ from contextlib import closing
 def writedb(blocks, todir, blocklimit, debug):
     block_count = 0
 
-    print >>sys.stderr, 'Writing blocks:',
+    sys.stderr.write('Writing blocks: ')
 
     queue = sorted(blocks.keys())
     while queue:
@@ -15,7 +15,7 @@ def writedb(blocks, todir, blocklimit, debug):
 
         blockdata = blocks[bkey]
         if len(blockdata) > blocklimit:
-            if debug: print >>sys.stderr, 'Splitting block', bkey, 'with', len(blockdata), 'entries..',
+            if debug: sys.stderr.write('Splitting block' + bkey + 'with' + len(blockdata) + 'entries..\n')
 
             # split all children out
             children = {}
@@ -41,7 +41,7 @@ def writedb(blocks, todir, blocklimit, debug):
                     retained += 1
                 del children[0]
 
-            if debug: print >>sys.stderr, len(children), 'children created,', len(blockdata), 'entries retained in parent'
+            if debug: sys.stderr.write(len(children) + 'children created,' + len(blockdata) + 'entries retained in parent\n')
             children = sorted(children, key=lambda x: x[0])
             blockdata['children'] = [x[0] for x in children]
             blocks[bkey] = blockdata
@@ -50,24 +50,26 @@ def writedb(blocks, todir, blocklimit, debug):
                 queue.append(c_bkey)
 
         path = todir + '/' + bkey + '.json'
-        if debug: print >>sys.stderr, 'Writing', len(blockdata), 'entries to', path
-        else: print >>sys.stderr, bkey,
+        if debug: sys.stderr.write('Writing' + len(blockdata) + 'entries to' + path + '\n')
+        else:
+            sys.stderr.write(bkey + ' ')
+            sys.stderr.flush()
         block_count += 1
         with closing(open(path, 'w')) as f:
             json.dump(obj=blockdata, fp=f, check_circular=False, separators=(',',':'), sort_keys=True)
 
-    print >>sys.stderr, 'done.'
-    print >>sys.stderr, 'Wrote', block_count, 'blocks'
+    sys.stderr.write('done.\n')
+    sys.stderr.write('Wrote ' + str(block_count) + ' blocks\n')
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print >>sys.stderr, 'Reads the aircrafts.json like this one: https://github.com/Mictronics/readsb/blob/master/webapp/src/db/aircrafts.json with aircraft information and produces a directory of JSON files'
-        print >>sys.stderr, 'Syntax: %s <path to aircraft.json>  <path to DB dir>' % sys.argv[0]
+        sys.stderr.write('Reads the aircrafts.json like this one: https://github.com/Mictronics/readsb/blob/master/webapp/src/db/aircrafts.json with aircraft information and produces a directory of JSON files\n')
+        sys.stderr.write('Syntax: ' + sys.argv[0] + ' <path to aircraft.json>  <path to DB dir>\n')
         sys.exit(1)
 
     blocks = {}
 
-    for i in xrange(16):
+    for i in range(16):
         blocks['%01X' % i] = {}
 
     with open(sys.argv[1]) as jsonFile:
