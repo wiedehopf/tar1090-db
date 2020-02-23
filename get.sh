@@ -5,3 +5,4 @@ rm -f db/*
 cp airport-coords.json icao_aircraft_types.json db
 gzip -9 -k db/*.json -f
 ./toJson.py aircraft.json db
+git add db
