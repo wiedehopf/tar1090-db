@@ -49,7 +49,7 @@ def writedb(blocks, todir, blocklimit, debug):
                 blocks[c_bkey] = c_entries
                 queue.append(c_bkey)
 
-        path = todir + '/' + bkey + '.json'
+        path = todir + '/' + bkey + '.js'
         if debug: sys.stderr.write('Writing' + len(blockdata) + 'entries to' + path + '\n')
         else:
             sys.stderr.write(bkey + ' ')
