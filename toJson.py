@@ -6,6 +6,8 @@ from contextlib import closing
 def writedb(blocks, todir, blocklimit, debug):
     block_count = 0
 
+    files = []
+
     sys.stderr.write('Writing blocks: ')
 
     queue = sorted(blocks.keys())
@@ -50,6 +52,7 @@ def writedb(blocks, todir, blocklimit, debug):
                 queue.append(c_bkey)
 
         path = todir + '/' + bkey + '.js'
+        files.append(bkey);
         if debug: sys.stderr.write('Writing' + len(blockdata) + 'entries to' + path + '\n')
         else:
             sys.stderr.write(bkey + ' ')
@@ -58,6 +61,9 @@ def writedb(blocks, todir, blocklimit, debug):
         with closing(open(path, 'w')) as f:
             json.dump(obj=blockdata, fp=f, check_circular=False, separators=(',',':'), sort_keys=True)
 
+    path = todir + '/files.js'
+    with closing(open(path, 'w')) as f:
+        json.dump(obj=files, fp=f, check_circular=False, separators=(',',':'), sort_keys=True)
     sys.stderr.write('done.\n')
     sys.stderr.write('Wrote ' + str(block_count) + ' blocks\n')
 
