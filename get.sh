@@ -1,5 +1,5 @@
 set -e
-wget --compression=auto -O aircraft.json https://raw.githubusercontent.com/Mictronics/readsb/dev/webapp/src/db/aircrafts.json
+wget --compression=auto -O aircraft.json https://raw.githubusercontent.com/Mictronics/readsb/master/webapp/src/db/aircrafts.json
 
 rm -f db/*
 cp airport-coords.json db/airport-coords.js
