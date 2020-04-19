@@ -85,7 +85,13 @@ if __name__ == '__main__':
         bkey = k[0:1].upper()
         dkey = k[1:].upper()
 
-        blocks[bkey][dkey] = [ v["r"], v["t"], v["f"] ]
+        if v and bkey and dkey and bkey in blocks:
+            blocks[bkey][dkey] = [ v["r"], v["t"], v["f"] ]
+        else:
+            print(k)
+            print(bkey)
+            print(dkey)
+            print(v)
 
 
     #with open('blocks.json', 'w') as out:
