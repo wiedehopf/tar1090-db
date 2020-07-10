@@ -1,1 +1,1 @@
-{"01007":["E5-TCM","C550","00"],"8BD91":["SP-GBE","CRUZ","00"]}
+{"01007":["E5-TCM","C550","00","Cessna Citation II"],"8BD91":["SP-GBE","CRUZ","00","Czech A/c SportCruiser"]}
