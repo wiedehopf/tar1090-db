@@ -86,7 +86,7 @@ if __name__ == '__main__':
         dkey = k[1:].upper()
 
         if v and bkey and dkey and bkey in blocks:
-            blocks[bkey][dkey] = [ v["r"], v["t"], v["f"] ]
+            blocks[bkey][dkey] = [ v["r"], v["t"], v["f"], v["d"] ]
         else:
             print(k)
             print(bkey)
