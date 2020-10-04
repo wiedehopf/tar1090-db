@@ -1,1 +1,1 @@
-{"01007":["E5-TCM","C550","00","Cessna Citation II"],"01008":["OE-ILI","A320","00","Airbus A320-232"],"8BD91":["SP-GBE","CRUZ","00","Czech A/c SportCruiser"]}
+{"01007":["E5-TCM","C550","00","Cessna Citation II"],"01008":["OE-ILI","A320","00","Airbus A320-232"],"01009":["N940AB","TBM9","00","Daher-Socata TBM-940"],"01010":["N940K","TBM9","00","Daher-Socata TBM-940"],"8BD91":["SP-GBE","CRUZ","00","Czech A/c SportCruiser"]}
