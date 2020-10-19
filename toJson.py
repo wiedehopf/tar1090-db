@@ -82,7 +82,10 @@ if __name__ == '__main__':
         noblocks = json.load(jsonFile)
 
     with open('aircraft.csv', 'w', newline='') as csvfile:
-        spamwriter = csv.writer(csvfile, delimiter=';', escapechar='\\', quoting=csv.QUOTE_NONE, quotechar=None)
+        spamwriter = csv.writer(csvfile,
+                delimiter=';', escapechar='\\',
+                quoting=csv.QUOTE_NONE, quotechar=None,
+                lineterminator='\n')
         for k,v in noblocks.items():
             spamwriter.writerow([k, v["r"], v["t"], v["f"], v["d"] ])
 
