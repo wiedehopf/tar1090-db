@@ -86,7 +86,7 @@ if __name__ == '__main__':
                 delimiter=';', escapechar='\\',
                 quoting=csv.QUOTE_NONE, quotechar=None,
                 lineterminator='\n')
-        for k,v in noblocks.items():
+        for k,v in sorted(noblocks.items()):
             spamwriter.writerow([k, v["r"], v["t"], v["f"], v["d"] ])
 
     for k,v in noblocks.items():
