@@ -81,6 +81,11 @@ if __name__ == '__main__':
     with open(sys.argv[1]) as jsonFile:
         noblocks = json.load(jsonFile)
 
+    with open('aircraft.csv', 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=';', escapechar='\\', quoting=csv.QUOTE_NONE, quotechar=None)
+        for k,v in noblocks.items():
+            spamwriter.writerow([k, v["r"], v["t"], v["f"], v["d"] ])
+
     for k,v in noblocks.items():
         bkey = k[0:1].upper()
         dkey = k[1:].upper()
@@ -92,7 +97,6 @@ if __name__ == '__main__':
             print(bkey)
             print(dkey)
             print(v)
-
 
     #with open('blocks.json', 'w') as out:
         #json.dump(blocks, out)
