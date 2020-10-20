@@ -7,4 +7,5 @@ cp icao_aircraft_types.json db/icao_aircraft_types.js
 ./toJson.py aircraft.json db
 sed -i -e 's/\\;/,/' aircraft.csv
 git add db
-git add aircraft.csv
+gzip -9 aircraft.csv
+git add aircraft.csv.gz
