@@ -58,11 +58,11 @@ def writedb(blocks, todir, blocklimit, debug):
             sys.stderr.write(bkey + ' ')
             sys.stderr.flush()
         block_count += 1
-        with closing(open(path, 'w')) as f:
+        with closing(open(path, 'w', encoding='utf-8')) as f:
             json.dump(obj=blockdata, fp=f, check_circular=False, separators=(',',':'), sort_keys=True)
 
     path = todir + '/files.js'
-    with closing(open(path, 'w')) as f:
+    with closing(open(path, 'w', encoding='utf-8')) as f:
         json.dump(obj=files, fp=f, check_circular=False, separators=(',',':'), sort_keys=True)
     sys.stderr.write('done.\n')
     sys.stderr.write('Wrote ' + str(block_count) + ' blocks\n')
@@ -78,10 +78,10 @@ if __name__ == '__main__':
     for i in range(16):
         blocks['%01X' % i] = {}
 
-    with open(sys.argv[1]) as jsonFile:
+    with open(sys.argv[1], encoding='utf-8') as jsonFile:
         noblocks = json.load(jsonFile)
 
-    with open('aircraft.csv', 'w', newline='') as csvfile:
+    with open('aircraft.csv', 'w', newline='', encoding='utf-8') as csvfile:
         spamwriter = csv.writer(csvfile,
                 delimiter=';', escapechar='\\',
                 quoting=csv.QUOTE_NONE, quotechar=None,
