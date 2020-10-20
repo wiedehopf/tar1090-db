@@ -87,7 +87,7 @@ if __name__ == '__main__':
                 quoting=csv.QUOTE_NONE, quotechar=None,
                 lineterminator='\n')
         for k,v in sorted(noblocks.items()):
-            spamwriter.writerow([k, v["r"], v["t"], v["f"], v["d"] ])
+            spamwriter.writerow([k.zfill(6), v["r"], v["t"], v["f"], v["d"] ])
 
     for k,v in noblocks.items():
         bkey = k[0:1].upper()
