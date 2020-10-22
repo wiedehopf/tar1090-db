@@ -98,9 +98,14 @@ if __name__ == '__main__':
         for k,v in sorted(noblocks.items()):
             spamwriter.writerow([k, v["r"], v["t"], v["f"], v["d"] ])
 
+    regIcao = {}
+
     for k,v in sorted(noblocks.items()):
         bkey = k[0:1].upper()
         dkey = k[1:].upper()
+
+        if "r" in v:
+            regIcao[v["r"]] = k
 
         if v and bkey and dkey and bkey in blocks:
             blocks[bkey][dkey] = [ v["r"], v["t"], v["f"], v["d"] ]
@@ -109,6 +114,9 @@ if __name__ == '__main__':
             print(bkey)
             print(dkey)
             print(v)
+
+    with open((sys.argv[2] + '/regIcao.js'), 'w') as out:
+        json.dump(regIcao, out)
 
     #with open('blocks.json', 'w') as out:
         #json.dump(blocks, out)
