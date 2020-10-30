@@ -78,7 +78,12 @@ if __name__ == '__main__':
     for i in range(16):
         blocks['%01X' % i] = {}
 
-    with open(sys.argv[1], encoding='utf-8') as jsonFile:
+    with open(sys.argv[1], 'rt', encoding='utf-8', errors='backslashreplace') as jsonFile:
+        text = jsonFile.read()
+        with open('decodedJSON', 'wt', encoding='utf-8') as out:
+            out.write(text)
+
+    with open(sys.argv[1], 'rt', encoding='utf-8', errors='replace_errors') as jsonFile:
         noblocks = json.load(jsonFile)
 
     short = {}
