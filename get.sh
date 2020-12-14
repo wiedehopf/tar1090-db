@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
-wget --compression=auto -O aircraft.json https://raw.githubusercontent.com/Mictronics/readsb-protobuf/dev/webapp/src/db/aircrafts.json
+wget -O mic-db.zip https://www.mictronics.de/aircraft-database/indexedDB_old.php
+unzip -o mic-db.zip
+
 
 function compress() {
     7za a -mx=9 "$1.gz" "$1"
@@ -8,7 +10,8 @@ function compress() {
 
 rm -f db/*
 cp airport-coords.json db/airport-coords.js
-cp icao_aircraft_types.json db/icao_aircraft_types.js
+cp types.json db/icao_aircraft_types.js
+cp operators.json db/operators.js
 
 sed -i -e 's/},/},\n/g' aircraft.json
 sed -e 's#\\u00c9#\xc3\x89#g' \
