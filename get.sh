@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
+wget -O newTypes.json --compression=auto https://raw.githubusercontent.com/Mictronics/readsb-protobuf/dev/webapp/src/db/types.json &
 wget -O mic-db.zip https://www.mictronics.de/aircraft-database/indexedDB_old.php
 unzip -o mic-db.zip
+
 
 
 function compress() {
@@ -13,16 +15,17 @@ cp airport-coords.json db/airport-coords.js
 cp types.json db/icao_aircraft_types.js
 cp operators.json db/operators.js
 
-sed -i -e 's/},/},\n/g' aircraft.json
+
+sed -i -e 's/},/},\n/g' aircrafts.json
 sed -e 's#\\u00c9#\xc3\x89#g' \
     -e 's#\\u00e9#\xc3\xa9#g' \
     -e 's#\\/#/#g' \
     -e "s/''/'/g" \
-    aircraft.json > aircraftUtf.json
+    aircrafts.json > aircraftUtf.json
 
 perl -i -pe 's/\\u00(..)/chr(hex($1))/eg' aircraftUtf.json
 
-./toJson.py aircraftUtf.json db
+./toJson.py aircraftUtf.json db newTypes.json
 
 for file in db/*; do
     compress "$file"

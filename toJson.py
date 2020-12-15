@@ -68,7 +68,7 @@ def writedb(blocks, todir, blocklimit, debug):
     sys.stderr.write('Wrote ' + str(block_count) + ' blocks\n')
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         sys.stderr.write('Reads the aircrafts.json like this one: https://github.com/Mictronics/readsb/blob/master/webapp/src/db/aircrafts.json with aircraft information and produces a directory of JSON files\n')
         sys.stderr.write('Syntax: ' + sys.argv[0] + ' <path to aircraft.json>  <path to DB dir>\n')
         sys.exit(1)
@@ -86,8 +86,20 @@ if __name__ == '__main__':
     with open(sys.argv[1], 'rt', encoding='utf-8', errors='replace_errors') as jsonFile:
         noblocks = json.load(jsonFile)
 
+    types = {}
+
+    if len(sys.argv) >= 4:
+        with open(sys.argv[3], 'rt', encoding='utf-8', errors='replace_errors') as jsonFile:
+             newTypes = json.load(jsonFile)
+
     short = {}
     for k,v in noblocks.items():
+        if not v.get('d') and v.get('t'):
+            nT = newTypes.get(v.get('t'))
+            if nT:
+                v['d'] = nT[0]
+                #print(v['d'])
+
         if len(k) < 6:
             short[k] = v
 
