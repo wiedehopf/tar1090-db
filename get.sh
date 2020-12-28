@@ -7,6 +7,7 @@ unzip -o mic-db.zip
 
 
 function compress() {
+    rm -f "$1.gz"
     7za a -mx=9 "$1.gz" "$1"
 }
 
