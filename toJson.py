@@ -97,7 +97,8 @@ if __name__ == '__main__':
 
     for k,v in noblocks.items():
         v['f'] = v['f'] + '00'
-        if not v.get('d') and v.get('t'):
+        #if not v.get('d') and v.get('t'):
+        if v.get('t'):
             nT = newTypes.get(v.get('t'))
             if nT:
                 v['d'] = nT[0]
