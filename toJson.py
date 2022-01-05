@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sqlite3, json, sys, csv, traceback
+import glob
 from contextlib import closing
 
 def writedb(blocks, todir, blocklimit, debug):
@@ -77,6 +78,12 @@ if __name__ == '__main__':
 
     for i in range(16):
         blocks['%01X' % i] = {}
+
+
+    mil_long = []
+    for file in glob.glob("./cg341-longnames/individual-types/*.csv"):
+        with open(file, 'rt', encoding='utf-8-sig', errors='backslashreplace') as f:
+            mil_long.extend(csv.reader(f, delimiter=',', quotechar='|'))
 
     with open(sys.argv[1], 'rt', encoding='utf-8', errors='backslashreplace') as jsonFile:
         text = jsonFile.read()
@@ -174,6 +181,17 @@ if __name__ == '__main__':
     for k, v in noblocks.items():
         if 'f' in v and v['f'][2:] == '00':
             v['f'] = v['f'][:2]
+
+    for row in mil_long:
+        icao = row[0]
+        reg = row[1]
+        tc = row[2]
+        flags = row[3]
+        longtype = row[4]
+
+        entry = noblocks.get(icao)
+        if entry and entry.get('t') == tc:
+            entry['d'] = longtype
 
     with open('aircraft.csv', 'w', newline='', encoding='utf-8') as csvfile:
         spamwriter = csv.writer(csvfile,
