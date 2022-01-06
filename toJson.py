@@ -102,12 +102,14 @@ if __name__ == '__main__':
     fixKey = {}
     delKey = []
 
+    useLongName = set([ "ZZZZ","SHIP","BALL","GLID","ULAC","GYRO","UHEL","TWR","GND","PARA","DRON","EMER","SERV" ])
+
     for k,v in noblocks.items():
         v['f'] = v['f'] + '00'
-        #if not v.get('d') and v.get('t'):
-        if v.get('t'):
-            nT = newTypes.get(v.get('t'))
-            if nT:
+        tc = v.get('t')
+        if tc and tc not in useLongName:
+            nT = newTypes.get(tc)
+            if nT and nT[0]:
                 v['d'] = nT[0]
                 #print(v['d'])
 
