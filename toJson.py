@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
 
     mil_long = []
-    for file in glob.glob("./cg341-longnames/individual-types/*.csv"):
+    for file in glob.glob("./longnames/individual-types/*.csv"):
         with open(file, 'rt', encoding='utf-8-sig', errors='backslashreplace') as f:
             mil_long.extend(csv.reader(f, delimiter=',', quotechar='|'))
 
