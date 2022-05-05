@@ -217,11 +217,11 @@ if __name__ == '__main__':
                 #print(typeLong)
                 del v['d']
 
+        if "r" in v:
+            regIcao[v["r"].replace("-", "")] = k
+
         bkey = k[0:1].upper()
         dkey = k[1:].upper()
-
-        if "r" in v:
-            regIcao[v["r"]] = k
 
         if v and bkey and dkey and bkey in blocks:
             blocks[bkey][dkey] = [ v.get('r'), v.get('t'), v.get('f'), v.get('d') ]
