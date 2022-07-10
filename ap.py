@@ -17,6 +17,8 @@ for a in table:
                 print(icao)
                 print(out[icao])
                 dupe = 1
+                if not 'faa_lid' in a:
+                    continue
 
             out[icao] = [a['coordinates']['latitude'], a['coordinates']['longitude']]
 
