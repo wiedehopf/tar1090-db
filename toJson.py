@@ -185,6 +185,10 @@ if __name__ == '__main__':
             v['f'] = v['f'][:2]
 
     for row in mil_long:
+        if len(row) < 5:
+            print(row)
+            continue
+
         icao = row[0]
         reg = row[1]
         tc = row[2]
