@@ -196,7 +196,7 @@ if __name__ == '__main__':
         longtype = row[4]
 
         entry = noblocks.get(icao)
-        if entry and entry.get('t') == tc:
+        if entry and entry.get('t') == tc and entry.get('r') == reg:
             entry['d'] = longtype
 
     with open('aircraft.csv', 'w', newline='', encoding='utf-8') as csvfile:
