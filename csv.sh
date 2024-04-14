@@ -11,6 +11,11 @@ if [[ -f /usr/local/share/tar1090/aircraft.csv.gz ]]; then
     cp aircraft.csv.gz /usr/local/share/tar1090/aircraft.csv.gz
 fi
 git add aircraft.csv.gz
+
+VERSION="3.14.$(( $(cat version | cut -d'.' -f3) + 1 ))"
+echo "$VERSION" > version
+git add version
+
 git commit --amend --date "$(date)" -m "aircraft.csv.gz update"
 git push -f
 git checkout master
