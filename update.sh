@@ -61,5 +61,10 @@ for file in db/*; do
 done
 
 git add db
+
+VERSION="3.14.$(( $(cat version | cut -d'.' -f3) + 1 ))"
+echo "$VERSION" > version
+git add version
+
 git commit --amend --date "$(date)" -m "database update (to keep the repository small, this commit is replaced regularly)"
 git push -f
