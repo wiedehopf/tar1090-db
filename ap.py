@@ -24,11 +24,13 @@ for a in table:
 
             if dupe == 1:
                 print(out[icao])
+
+for a in table:
     if 'iata_code' in a and 'coordinates' in a:
         iata = a['iata_code']
         out[iata] = [a['coordinates']['latitude'], a['coordinates']['longitude']]
 
 
 with open('lookup.json', 'w') as outFile:
-        json.dump(out, outFile)
+    json.dump(out, outFile, separators=(',', ':'))
 
