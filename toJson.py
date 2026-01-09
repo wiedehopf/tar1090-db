@@ -158,15 +158,21 @@ if __name__ == '__main__':
                     e['ownop'] = ownop
 
                 reg = a.get('reg')
-                #if reg and not e.get('r'):
-                if reg:
+                #if reg:
+                # only use if no mictronics data (mixed data is terrible but don't want to remove
+                # the other fields)
+                # probably will remove this data source in the future
+                if reg and not e.get('r'):
                     e['r'] = reg
 
                 icaotype = a.get('icaotype')
                 #if icaotype and not e.get('t'):
                 # revert to this as soon as the E170 situation is fixed
                 #if icaotype:
-                if icaotype and (icaotype != 'E170' or not e.get('t')):
+                #if icaotype and (icaotype != 'E170' or not e.get('t')):
+                # only use if no mictronics data (mixed data is terrible but don't want to remove
+                # the other fields)
+                if icaotype and not e.get('t'):
                     if e.get('t') and e.get('t') != icaotype:
                         nT = newTypes.get(icaotype)
                         if nT: e['d'] = nT[0]
