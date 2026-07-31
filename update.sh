@@ -19,7 +19,7 @@ if ! [[ -d "$(pwd)/longnames/individual-types" ]]; then
 fi
 
 wget -O newTypes.json --compression=auto https://raw.githubusercontent.com/Mictronics/readsb-protobuf/dev/webapp/src/db/types.json
-wget -O mic-db.zip https://www.mictronics.de/aircraft-database/indexedDB_old.php
+wget -O mic-db.zip https://github.com/Mictronics/aircraft-database/raw/refs/heads/main/indexedDB_old.zip
 unzip -o mic-db.zip
 
 wget -O basic-ac-db.json.gz https://downloads.adsbexchange.com/downloads/basic-ac-db.json.gz
