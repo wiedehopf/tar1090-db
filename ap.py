@@ -59,8 +59,8 @@ for a in table:
         iata = a['iata_code']
         lat = a.get('latitude_deg')
         lon = a.get('longitude_deg')
-        if re.search(r'\d', icao, 0):
-            # ignore all icao codes with numbers in them to keep filesize down
+        if re.search(r'\d', iata):
+            # ignore all iata codes with numbers in them to keep filesize down
             # it's generally very small airports
             continue
 
@@ -79,10 +79,15 @@ for a in table:
 
 out = {}
 for key, value in lookup.items():
-    out[key] = [
-            round(float(value.get('latitude_deg')), 4),
-            round(float(value.get('longitude_deg')), 4)
-            ]
+    try:
+        lat = float(value.get('latitude_deg', ''))
+        lon = float(value.get('longitude_deg', ''))
+        out[key] = [
+                round(lat, 4),
+                round(lon, 4)
+                ]
+    except (ValueError, TypeError):
+        continue
     # print(f"{key} {out[key]}")
 
 
