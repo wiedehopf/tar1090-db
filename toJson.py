@@ -18,7 +18,7 @@ def writedb(blocks, todir, blocklimit, debug):
 
         blockdata = blocks[bkey]
         if len(blockdata) > blocklimit:
-            if debug: sys.stderr.write('Splitting block' + bkey + 'with' + len(blockdata) + 'entries..\n')
+            if debug: sys.stderr.write(f'Splitting block {bkey} with {len(blockdata)} entries..\n')
 
             # split all children out
             children = {}
@@ -44,7 +44,7 @@ def writedb(blocks, todir, blocklimit, debug):
                     retained += 1
                 del children[0]
 
-            if debug: sys.stderr.write(len(children) + 'children created,' + len(blockdata) + 'entries retained in parent\n')
+            if debug: sys.stderr.write(f'{len(children)} children created, {len(blockdata)} entries retained in parent\n')
             children = sorted(children, key=lambda x: x[0])
             blockdata['children'] = [x[0] for x in children]
             blocks[bkey] = blockdata
@@ -53,8 +53,8 @@ def writedb(blocks, todir, blocklimit, debug):
                 queue.append(c_bkey)
 
         path = todir + '/' + bkey + '.js'
-        files.append(bkey);
-        if debug: sys.stderr.write('Writing' + len(blockdata) + 'entries to' + path + '\n')
+        files.append(bkey)
+        if debug: sys.stderr.write(f'Writing {len(blockdata)} entries to {path}\n')
         else:
             sys.stderr.write(bkey + ' ')
             sys.stderr.flush()
@@ -107,6 +107,11 @@ if __name__ == '__main__':
     for k,v in noblocks.items():
         v['f'] = v['f'] + '00'
         tc = v.get('t')
+        # Correct known Mictronics type slips:
+        # Aero Commander 690/690A (turboprop) mistakenly typed AC68 (piston) instead of AC90 (Issue #20)
+        if tc == 'AC68' and ('690' in (v.get('d') or '')):
+            tc = v['t'] = 'AC90'
+
         if tc and tc not in useLongName:
             nT = newTypes.get(tc)
             if nT and nT[0]:
@@ -128,7 +133,7 @@ if __name__ == '__main__':
         print('ignoring bad addr: ' + str(k))
 
     if len(sys.argv) >= 5:
-        with open(sys.argv[4], 'rt', encoding='utf-8', errors='replace_errors') as f:
+        with open(sys.argv[4], 'rt', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
             for line in lines:
                 try:
@@ -173,10 +178,16 @@ if __name__ == '__main__':
                 # only use if no mictronics data (mixed data is terrible but don't want to remove
                 # the other fields)
                 if icaotype and not e.get('t'):
-                    if e.get('t') and e.get('t') != icaotype:
-                        nT = newTypes.get(icaotype)
-                        if nT: e['d'] = nT[0]
+                    nT = newTypes.get(icaotype)
+                    if nT and nT[0]:
+                        e['d'] = nT[0]
                     e['t'] = icaotype
+                elif icaotype == 'AC90' and e.get('t') == 'AC68':
+                    # Allow ADSBx AC90 to override Mictronics AC68 type slip (resolves Issue #20)
+                    nT = newTypes.get('AC90')
+                    if nT and nT[0]:
+                        e['d'] = nT[0]
+                    e['t'] = 'AC90'
 
                 year = a.get('year')
                 if year:
