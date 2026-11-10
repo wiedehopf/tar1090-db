@@ -53,7 +53,7 @@ perl -i -pe 's/\\u00(..)/chr(hex($1))/eg' aircraftUtf.json
 
 ./toJson.py aircraftUtf.json db newTypes.json basic-ac-db.json
 
-sed -i -e 's/\\;/,/' aircraft.csv
+sed -i -e 's/\\;/,/g' aircraft.csv
 
 for file in db/*; do
     compress "$file"

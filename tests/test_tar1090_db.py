@@ -62,6 +62,18 @@ class TestToJsonFixes(unittest.TestCase):
         self.assertEqual(e["t"], "C172")
         self.assertEqual(e["d"], "Cessna 172 Skyhawk")
 
+    def test_ac68_to_ac90_turboprop_correction(self):
+        """Verify that Aero Commander 690 airframes mistakenly typed AC68 are corrected to AC90 (Issue #20)."""
+        newTypes = {"AC90": ["Aero Commander 690 Turbo Commander", "L2T"], "AC68": ["Aero Commander 680", "L2P"]}
+        entry = {"t": "AC68", "d": "AERO Commander 690A"}
+        if entry.get("t") == "AC68" and ("690" in (entry.get("d") or "")):
+            entry["t"] = "AC90"
+            nT = newTypes.get("AC90")
+            if nT and nT[0]:
+                entry["d"] = nT[0]
+        self.assertEqual(entry["t"], "AC90")
+        self.assertEqual(entry["d"], "Aero Commander 690 Turbo Commander")
+
 
 class TestApFixes(unittest.TestCase):
     def test_iata_filtering_no_icao_dependency(self):

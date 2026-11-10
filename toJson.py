@@ -107,6 +107,11 @@ if __name__ == '__main__':
     for k,v in noblocks.items():
         v['f'] = v['f'] + '00'
         tc = v.get('t')
+        # Correct known Mictronics type slips:
+        # Aero Commander 690/690A (turboprop) mistakenly typed AC68 (piston) instead of AC90 (Issue #20)
+        if tc == 'AC68' and ('690' in (v.get('d') or '')):
+            tc = v['t'] = 'AC90'
+
         if tc and tc not in useLongName:
             nT = newTypes.get(tc)
             if nT and nT[0]:
@@ -177,6 +182,12 @@ if __name__ == '__main__':
                     if nT and nT[0]:
                         e['d'] = nT[0]
                     e['t'] = icaotype
+                elif icaotype == 'AC90' and e.get('t') == 'AC68':
+                    # Allow ADSBx AC90 to override Mictronics AC68 type slip (resolves Issue #20)
+                    nT = newTypes.get('AC90')
+                    if nT and nT[0]:
+                        e['d'] = nT[0]
+                    e['t'] = 'AC90'
 
                 year = a.get('year')
                 if year:
